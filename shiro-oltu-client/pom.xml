@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>win.zqxu.shiro</groupId>
+		<artifactId>shiro-oltu</artifactId>
+		<version>1.0</version>
+	</parent>
+	<artifactId>shiro-oltu-client</artifactId>
+	<name>shiro-oltu-client</name>
+  <description>Integrate SHIRO with OLTU as OAuth2 client, can be used in desktop application.</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
+      <version>1.2.4</version>
+    </dependency>
+		<dependency>
+			<groupId>org.apache.oltu.oauth2</groupId>
+			<artifactId>org.apache.oltu.oauth2.httpclient4</artifactId>
+			<version>1.0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.oltu.oauth2</groupId>
+					<artifactId>org.apache.oltu.oauth2.client</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+    <dependency>
+      <groupId>org.apache.oltu.oauth2</groupId>
+      <artifactId>org.apache.oltu.oauth2.common</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+	</dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>
