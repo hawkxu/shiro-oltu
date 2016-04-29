@@ -4,7 +4,7 @@
  * application
  * </p>
  * <ul>
- * <li>Create realm object by using or extends OAuthAuthroizeRealm</li>
+ * <li>Create realm object by using or extends OAuthAuthorizeRealm</li>
  * <li>Using the realm object to construct SHRIO SecurityManager and pass to
  * SecurityUtils.setSecurityManager</li>
  * <li>Done HTTP session authentication using HttpClient4 and save the

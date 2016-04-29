@@ -20,20 +20,20 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import win.zqxu.shiro.oltu.client.OAuthAuthroizeRealm;
+import win.zqxu.shiro.oltu.client.OAuthAuthorizeRealm;
 import win.zqxu.shiro.oltu.client.OAuthClientToken;
 
 /**
  * <p>
  * OAuth2 authentication filter for SHIRO, set this filter and
- * {@link OAuthAuthroizeRealm} or its sub-class to SHIRO
+ * {@link OAuthAuthorizeRealm} or its sub-class to SHIRO
  * </p>
  * 
  * <p>
  * INI settings example:<br>
  * <br>
  * [main]<br>
- * oAuthRealm = win.zqxu.shiro.oltu.client.OAuthAuthroizeRealm<br>
+ * oAuthRealm = win.zqxu.shiro.oltu.client.OAuthAuthorizeRealm<br>
  * oAuthRealm.tokenURI = https://server/path_to/token<br>
  * oAuthRealm.clientId = xxxx<br>
  * oAuthRealm.clientSecret = xxxx<br>
@@ -59,7 +59,7 @@ import win.zqxu.shiro.oltu.client.OAuthClientToken;
  * /** = anon<br>
  * </p>
  * 
- * the client application can extends OAuthAuthroizeRealm to provide more
+ * the client application can extends OAuthAuthorizeRealm to provide more
  * subject attributes
  * 
  * @author zqxu

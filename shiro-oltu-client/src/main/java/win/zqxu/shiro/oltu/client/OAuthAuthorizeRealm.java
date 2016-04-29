@@ -24,7 +24,20 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 
-public class OAuthAuthroizeRealm extends AuthorizingRealm {
+/**
+ * <p>
+ * OAuth authorize realm, authorize through OAuth authorization code and get
+ * access token from OAuth server.
+ * </p>
+ * 
+ * <p>
+ * the client application can extends this class and override
+ * {@link #requestAttributes} method to provide more attributes
+ * </p>
+ * 
+ * @author zqxu
+ */
+public class OAuthAuthorizeRealm extends AuthorizingRealm {
   private String tokenURI;
   private String clientId;
   private String clientSecret;
@@ -34,7 +47,7 @@ public class OAuthAuthroizeRealm extends AuthorizingRealm {
   /**
    * Constructor, set authentication token class to {@link OAuthClientToken}
    */
-  public OAuthAuthroizeRealm() {
+  public OAuthAuthorizeRealm() {
     super();
     setAuthenticationTokenClass(OAuthClientToken.class);
     setCredentialsMatcher(new AllowAllCredentialsMatcher());
