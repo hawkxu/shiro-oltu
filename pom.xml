@@ -12,7 +12,18 @@
 		<module>shiro-oltu-web</module>
 	</modules>
 	<name>shiro-oltu</name>
+	<developers>
+		<developer>
+			<name>hawkx</name>
+			<email>hawkx@163.com</email>
+		</developer>
+	</developers>
 	<url>https://github.com/hawkxu/shiro-oltu</url>
+  <scm>
+    <url>git@github.com:hawkxu/shiro-oltu.git</url>
+    <connection>scm:git@github.com:hawkxu/shiro-oltu.git</connection>
+    <developerConnection>scm:git@github.com:hawkxu/shiro-oltu.git</developerConnection>
+  </scm>
 	<description>Integrate SHIRO with OLTU</description>
 	<licenses>
 		<license>
@@ -60,12 +71,12 @@
 					</execution>
 				</executions>
 				<configuration>
-				  <locale>en_US</locale>
-				  <links>
-				    <link>http://oltu.apache.org/apidocs/oauth2/</link>
-				    <link>http://shiro.apache.org/static/1.2.4/apidocs/</link>
-				    <link>http://hc.apache.org/httpcomponents-client-4.5.x/httpclient/apidocs/</link>
-				  </links>
+					<locale>en_US</locale>
+					<links>
+						<link>http://oltu.apache.org/apidocs/oauth2/</link>
+						<link>http://shiro.apache.org/static/1.2.4/apidocs/</link>
+						<link>http://hc.apache.org/httpcomponents-client-4.5.x/httpclient/apidocs/</link>
+					</links>
 				</configuration>
 			</plugin>
 			<plugin>
