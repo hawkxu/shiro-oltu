@@ -16,18 +16,20 @@ import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 
+/**
+ * Toolkit class for get resource response body from OAuth2 resource server.
+ * 
+ * @author zqxu
+ */
 public class OAuthResRequester {
   /**
-   * get resource body from OAuth2 resource body
+   * get resource body from OAuth2 resource response
    * 
    * @param URI
    *          resource URI
    * @param accessToken
    *          access token
    * @return resource body
-   * @throws URISyntaxException
-   * @throws OAuthSystemException
-   * @throws OAuthProblemException
    */
   public static String resource(String URI, String accessToken)
       throws URISyntaxException, OAuthSystemException, OAuthProblemException {
@@ -35,7 +37,7 @@ public class OAuthResRequester {
   }
 
   /**
-   * get resource body from OAuth2 resource body
+   * get resource body from OAuth2 resource response
    * 
    * @param URI
    *          resource URI
@@ -44,9 +46,6 @@ public class OAuthResRequester {
    * @param accessToken
    *          access token
    * @return resource body
-   * @throws URISyntaxException
-   * @throws OAuthSystemException
-   * @throws OAuthProblemException
    */
   public static String resource(String URI, Map<String, String> parameters, String accessToken)
       throws URISyntaxException, OAuthSystemException, OAuthProblemException {
@@ -64,7 +63,7 @@ public class OAuthResRequester {
   }
 
   /**
-   * get resource body from OAuth2 resource body
+   * get resource body from OAuth2 resource response
    * 
    * @param client
    *          HttpClient object
@@ -75,9 +74,6 @@ public class OAuthResRequester {
    * @param accessToken
    *          access token
    * @return resource body
-   * @throws URISyntaxException
-   * @throws OAuthSystemException
-   * @throws OAuthProblemException
    */
   public static String resource(CloseableHttpClient client, String URI,
       Map<String, String> parameters, String accessToken)

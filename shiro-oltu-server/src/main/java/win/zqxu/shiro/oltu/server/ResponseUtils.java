@@ -16,6 +16,11 @@ import org.apache.oltu.oauth2.common.message.OAuthResponse.OAuthResponseBuilder;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
 
+/**
+ * Toolkit class for generate OAuth2 response, for internal use.
+ * 
+ * @author zqxu
+ */
 public class ResponseUtils {
   public static OAuthResponseBuilder responseInvalidClient(String description) {
     return OAuthResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)

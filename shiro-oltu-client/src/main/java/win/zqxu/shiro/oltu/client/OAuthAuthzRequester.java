@@ -17,6 +17,11 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 
+/**
+ * Authorize with OAuth2 server, get authorization code.
+ * 
+ * @author zqxu
+ */
 public class OAuthAuthzRequester {
   private URI authorizeURI;
   private String clientId;

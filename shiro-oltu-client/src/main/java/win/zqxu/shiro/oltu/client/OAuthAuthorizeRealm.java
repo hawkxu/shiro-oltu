@@ -32,7 +32,7 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
  * 
  * <p>
  * the client application can extends this class and override
- * {@link #requestAttributes} method to provide more attributes
+ * {@link #requestAttributes(OAuthAccessTokenResponse)} method to provide more attributes
  * </p>
  * 
  * @author zqxu

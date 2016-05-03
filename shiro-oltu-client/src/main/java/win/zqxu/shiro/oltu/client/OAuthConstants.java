@@ -1,5 +1,10 @@
 package win.zqxu.shiro.oltu.client;
 
+/**
+ * Additional OAuth2 constants
+ * 
+ * @author zqxu
+ */
 public interface OAuthConstants {
   /**
    * attribute key for access token request time, the attribute value type

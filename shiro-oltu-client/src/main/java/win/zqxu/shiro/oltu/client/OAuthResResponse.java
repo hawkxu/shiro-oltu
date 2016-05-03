@@ -4,7 +4,7 @@ import org.apache.oltu.oauth2.client.response.OAuthClientResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 
 /**
- * OAuth resource response
+ * OAuth2 resource response
  * 
  * @author zqxu
  */

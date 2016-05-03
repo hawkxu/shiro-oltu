@@ -4,6 +4,11 @@ import org.apache.oltu.oauth2.common.OAuth;
 
 import win.zqxu.shiro.oltu.client.OAuthAuthzRequester;
 
+/**
+ * build OAuth2 login URL for SHIRO
+ * 
+ * @author zqxu
+ */
 public class OAuthLoginUrlBuilder extends OAuthAuthzRequester {
   private String callbackURI;
 

@@ -24,6 +24,11 @@ import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 
+/**
+ * To support CloseableHttpClient, for internal use
+ * 
+ * @author zqxu
+ */
 public class CloseableHttpClient4 implements HttpClient {
   private CloseableHttpClient client;
 
