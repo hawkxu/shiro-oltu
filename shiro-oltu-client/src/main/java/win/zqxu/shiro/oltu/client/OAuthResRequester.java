@@ -59,6 +59,24 @@ public class OAuthResRequester {
   }
 
   /**
+   * get access token
+   * 
+   * @return access token
+   */
+  public String getAccessToken() {
+    return accessToken;
+  }
+
+  /**
+   * get posting charset
+   * 
+   * @return posting charset
+   */
+  public String getCharset() {
+    return charset;
+  }
+
+  /**
    * get resource body from OAuth2 resource response using HTTP GET method
    * 
    * @param URI
