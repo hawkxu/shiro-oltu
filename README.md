@@ -1,5 +1,5 @@
 # shiro-oltu
-Integrate SHIRO with OLTU, please see [develop instructions](wiki)
+Integrate SHIRO with OLTU, please see [develop instructions](/hawkxu/shrio-oltu/wiki)
 
 This project contains three modules:<br>
 <p>
