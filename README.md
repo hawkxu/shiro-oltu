@@ -1,5 +1,5 @@
 # shiro-oltu
-Integrate SHIRO with OLTU
+Integrate SHIRO with OLTU, please see [develop instructions](wiki)
 
 This project contains three modules:<br>
 <p>
