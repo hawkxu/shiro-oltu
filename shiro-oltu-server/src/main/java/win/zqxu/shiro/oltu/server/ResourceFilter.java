@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
 import org.apache.shiro.web.servlet.AdviceFilter;
@@ -18,11 +19,6 @@ import org.apache.shiro.web.servlet.AdviceFilter;
  * A SHIRO filter to provide OAuth2 resource access control, if client has valid
  * access token, then the filter let it pass through, otherwise the filter
  * reject access and send back OAuth2 error.
- * </p>
- * 
- * <p>
- * The OAuth2 resource can be any page accept HTTP GET method, because OAuth2
- * client can only access resource using GET method.
  * </p>
  * 
  * <p>
@@ -72,6 +68,9 @@ public class ResourceFilter extends AdviceFilter {
       return ResponseUtils.processResponse(response, null,
           ResponseUtils.responseInvalidToken(i18n.getString("INVALID_TOKEN")));
     } catch (OAuthProblemException ex) {
+      if (OAuthUtils.isEmpty(ex.getError()))
+        return ResponseUtils.processResponse(response, null,
+            ResponseUtils.responseInvalidRequest(ex.getDescription()));
       return ResponseUtils.processResponse(response, null,
           OAuthRSResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED).error(ex));
     }

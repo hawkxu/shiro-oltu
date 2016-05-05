@@ -32,7 +32,8 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
  * 
  * <p>
  * the client application can extends this class and override
- * {@link #requestAttributes(OAuthAccessTokenResponse)} method to provide more attributes
+ * {@link #requestAttributes(OAuthAccessTokenResponse)} method to provide more
+ * attributes
  * </p>
  * 
  * @author zqxu
@@ -48,7 +49,25 @@ public class OAuthAuthorizeRealm extends AuthorizingRealm {
    * Constructor, set authentication token class to {@link OAuthClientToken}
    */
   public OAuthAuthorizeRealm() {
+    this(null, null, null);
+  }
+
+  /**
+   * Constructor with token URI and client id / secret, set authentication token
+   * class to {@link OAuthClientToken}
+   * 
+   * @param tokenURI
+   *          token URI
+   * @param clientId
+   *          client id
+   * @param clientSecret
+   *          client secret
+   */
+  public OAuthAuthorizeRealm(String tokenURI, String clientId, String clientSecret) {
     super();
+    this.tokenURI = tokenURI;
+    this.clientId = clientId;
+    this.clientSecret = clientSecret;
     setAuthenticationTokenClass(OAuthClientToken.class);
     setCredentialsMatcher(new AllowAllCredentialsMatcher());
   }

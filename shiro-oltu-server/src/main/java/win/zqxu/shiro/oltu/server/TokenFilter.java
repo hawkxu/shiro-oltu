@@ -11,6 +11,7 @@ import org.apache.oltu.oauth2.as.request.OAuthTokenRequest;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.shiro.web.servlet.AdviceFilter;
 
 /**
@@ -94,6 +95,9 @@ public class TokenFilter extends AdviceFilter {
           OAuthASResponse.tokenResponse(HttpServletResponse.SC_OK).setExpiresIn(expireIn)
               .setAccessToken(accessToken).setRefreshToken(refreshToken));
     } catch (OAuthProblemException ex) {
+      if (OAuthUtils.isEmpty(ex.getError()))
+        return ResponseUtils.processResponse(httpResponse, null,
+            ResponseUtils.responseInvalidRequest(ex.getDescription()));
       return ResponseUtils.processResponse(httpResponse, null,
           ResponseUtils.responseBadRequest(ex));
     }

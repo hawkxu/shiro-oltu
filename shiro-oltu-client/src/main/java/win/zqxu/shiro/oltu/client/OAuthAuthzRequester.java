@@ -2,7 +2,6 @@ package win.zqxu.shiro.oltu.client;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Set;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,10 +22,30 @@ import org.apache.oltu.oauth2.common.utils.OAuthUtils;
  * @author zqxu
  */
 public class OAuthAuthzRequester {
-  private URI authorizeURI;
+  private String authorizeURI;
   private String clientId;
   private Set<String> scopes;
   private String state;
+
+  /**
+   * Constructor
+   */
+  public OAuthAuthzRequester() {
+    this(null, null);
+  }
+
+  /**
+   * Constructor with authorize URI and client id
+   * 
+   * @param authorizeURI
+   *          authorize URI
+   * @param clientId
+   *          client id
+   */
+  public OAuthAuthzRequester(String authorizeURI, String clientId) {
+    this.authorizeURI = authorizeURI;
+    this.clientId = clientId;
+  }
 
   /**
    * get authorize URI
@@ -34,7 +53,7 @@ public class OAuthAuthzRequester {
    * @return authorize URI without parameter
    */
   public String getAuthorizeURI() {
-    return authorizeURI == null ? null : authorizeURI.toString();
+    return authorizeURI;
   }
 
   /**
@@ -44,14 +63,7 @@ public class OAuthAuthzRequester {
    *          authorize URI without parameter
    */
   public void setAuthorizeURI(String authorizeURI) {
-    try {
-      if (OAuthUtils.isEmpty(authorizeURI))
-        this.authorizeURI = null;
-      else
-        this.authorizeURI = new URI(authorizeURI);
-    } catch (URISyntaxException ex) {
-      throw new IllegalArgumentException("invalid authorize URI", ex);
-    }
+    this.authorizeURI = authorizeURI;
   }
 
   /**
@@ -117,7 +129,7 @@ public class OAuthAuthzRequester {
    * @return full authorize URI with parameters
    */
   public String getQueryURI() {
-    URIBuilder builder = new URIBuilder(authorizeURI);
+    URIBuilder builder = new URIBuilder(URI.create(authorizeURI));
     builder.addParameter(OAuth.OAUTH_RESPONSE_TYPE, ResponseType.CODE.toString());
     builder.addParameter(OAuth.OAUTH_CLIENT_ID, clientId);
     if (scopes != null)

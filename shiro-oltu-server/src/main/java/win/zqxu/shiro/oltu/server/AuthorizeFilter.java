@@ -69,6 +69,9 @@ public class AuthorizeFilter extends AdviceFilter {
       else
         return processSavedRequest(httpRequest, httpResponse);
     } catch (OAuthProblemException ex) {
+      if (OAuthUtils.isEmpty(ex.getError()))
+        return ResponseUtils.processResponse(httpResponse, ex.getRedirectUri(),
+            ResponseUtils.responseInvalidRequest(ex.getDescription()));
       return ResponseUtils.processResponse(httpResponse, ex.getRedirectUri(),
           ResponseUtils.responseBadRequest(ex));
     }
