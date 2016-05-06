@@ -76,6 +76,7 @@
 						<link>http://oltu.apache.org/apidocs/oauth2/</link>
 						<link>http://shiro.apache.org/static/1.2.4/apidocs/</link>
 						<link>http://hc.apache.org/httpcomponents-client-4.5.x/httpclient/apidocs/</link>
+						<link>http://docs.oracle.com/javaee/7/api/</link>
 					</links>
 				</configuration>
 			</plugin>
