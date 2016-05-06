@@ -204,7 +204,7 @@ public class OAuthAuthorizeRealm extends AuthorizingRealm {
    *          the client token
    * @param oAuthResponse
    *          OAuth access token response
-   * @return
+   * @return authentication info
    */
   protected AuthenticationInfo buildAuthenticationInfo(OAuthClientToken clientToken,
       OAuthAccessTokenResponse oAuthResponse) {

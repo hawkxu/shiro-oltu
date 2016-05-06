@@ -89,17 +89,17 @@ public class OAuthAuthenticationFilter extends AuthenticatingFilter {
   }
 
   /**
-   * get failure page URI
+   * get failure URI
    * 
-   * @return
+   * @return failure URI
    */
   public String getFailureURI() {
     return failureURI;
   }
 
   /**
-   * set failure page URI, when OAuth authorization failed, redirect to this URI
-   * with parameters error and error_description.
+   * set failure URI, when OAuth authorization failed, redirect to this URI with
+   * parameters error and error_description.
    * <p>
    * the failure page should use {@link OAuthError#OAUTH_ERROR} and
    * {@link OAuthError#OAUTH_ERROR_DESCRIPTION} instead of hard-code parameter
@@ -107,6 +107,7 @@ public class OAuthAuthenticationFilter extends AuthenticatingFilter {
    * </p>
    * 
    * @param failureURI
+   *          failure URI
    */
   public void setFailureURI(String failureURI) {
     this.failureURI = failureURI;
@@ -177,6 +178,18 @@ public class OAuthAuthenticationFilter extends AuthenticatingFilter {
   /**
    * the OAuth2 server response error, redirect to failure URI or write error
    * message.
+   * 
+   * @param request
+   *          servlet request
+   * @param response
+   *          servlet response
+   * @param error
+   *          OAuth error
+   * @param description
+   *          error description
+   * @return always return false
+   * @throws IOException
+   *           If an IO exception occurs
    */
   protected boolean processAuthorizationError(ServletRequest request, ServletResponse response,
       String error, String description) throws IOException {

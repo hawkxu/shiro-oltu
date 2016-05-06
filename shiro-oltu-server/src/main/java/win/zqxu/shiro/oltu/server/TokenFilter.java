@@ -90,7 +90,7 @@ public class TokenFilter extends AdviceFilter {
         oAuthService.addRefreshToken(refreshToken, accessToken);
       }
       // generate page content
-      String expireIn = String.valueOf(oAuthService.getExpireIn());
+      String expireIn = String.valueOf(oAuthService.getExpireIn(accessToken));
       return ResponseUtils.processResponse(httpResponse, null,
           OAuthASResponse.tokenResponse(HttpServletResponse.SC_OK).setExpiresIn(expireIn)
               .setAccessToken(accessToken).setRefreshToken(refreshToken));

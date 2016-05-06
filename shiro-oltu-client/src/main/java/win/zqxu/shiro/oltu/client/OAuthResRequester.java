@@ -1,7 +1,7 @@
 package win.zqxu.shiro.oltu.client;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -79,30 +79,37 @@ public class OAuthResRequester {
   /**
    * get resource body from OAuth2 resource response using HTTP GET method
    * 
-   * @param URI
+   * @param uri
    *          resource URI
    * @return resource body
+   * @throws OAuthSystemException
+   *           If an OAuth system exception occurs
+   * @throws OAuthProblemException
+   *           If an OAuth problem exception occurs
    */
-  public String get(String URI)
-      throws URISyntaxException, OAuthSystemException, OAuthProblemException {
-    return get(URI, null);
+  public String get(String uri) throws OAuthSystemException, OAuthProblemException {
+    return get(uri, null);
   }
 
   /**
    * get resource body from OAuth2 resource response using HTTP GET method
    * 
-   * @param URI
+   * @param uri
    *          resource URI
    * @param parameters
    *          resource parameters
    * @return resource body
+   * @throws OAuthSystemException
+   *           If an OAuth system exception occurs
+   * @throws OAuthProblemException
+   *           If an OAuth problem exception occurs
    */
-  public String get(String URI, Map<String, String> parameters)
-      throws URISyntaxException, OAuthSystemException, OAuthProblemException {
+  public String get(String uri, Map<String, String> parameters)
+      throws OAuthSystemException, OAuthProblemException {
     CloseableHttpClient client = HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy())
         .build();
     try {
-      return get(client, URI, parameters);
+      return get(client, uri, parameters);
     } finally {
       try {
         client.close();
@@ -117,26 +124,29 @@ public class OAuthResRequester {
    * 
    * @param client
    *          HttpClient object
-   * @param URI
+   * @param uri
    *          resource URI
    * @param parameters
    *          resource parameters
    * @return resource body
+   * @throws OAuthSystemException
+   *           If an OAuth system exception occurs
+   * @throws OAuthProblemException
+   *           If an OAuth problem exception occurs
    */
-  public String get(CloseableHttpClient client, String URI, Map<String, String> parameters)
-      throws URISyntaxException, OAuthSystemException, OAuthProblemException {
+  public String get(CloseableHttpClient client, String uri, Map<String, String> parameters)
+      throws OAuthSystemException, OAuthProblemException {
     if (parameters != null)
-      URI = rebuildURI(URI, parameters);
+      uri = rebuildURI(uri, parameters);
     CloseableHttpClient4 proxy = new CloseableHttpClient4(client);
     OAuthClient oAuthClient = new OAuthClient(proxy);
-    OAuthClientRequest request = new OAuthBearerClientRequest(URI).setAccessToken(accessToken)
+    OAuthClientRequest request = new OAuthBearerClientRequest(uri).setAccessToken(accessToken)
         .buildHeaderMessage();
     return oAuthClient.resource(request, OAuth.HttpMethod.GET, OAuthResResponse.class).getBody();
   }
 
-  private static String rebuildURI(String URI, Map<String, String> parameters)
-      throws URISyntaxException {
-    URIBuilder builder = new URIBuilder(URI);
+  private static String rebuildURI(String uri, Map<String, String> parameters) {
+    URIBuilder builder = new URIBuilder(URI.create(uri));
     for (Entry<String, String> param : parameters.entrySet())
       builder.addParameter(param.getKey(), param.getValue());
     return builder.toString();
@@ -145,31 +155,38 @@ public class OAuthResRequester {
   /**
    * get resource body from OAuth2 resource response using HTTP POST method
    * 
-   * @param URI
+   * @param uri
    *          resource URI
    * @return resource body
+   * @throws OAuthSystemException
+   *           If an OAuth system exception occurs
+   * @throws OAuthProblemException
+   *           If an OAuth problem exception occurs
    */
-  public String post(String URI)
-      throws URISyntaxException, OAuthSystemException, OAuthProblemException {
-    return post(URI, null);
+  public String post(String uri) throws OAuthSystemException, OAuthProblemException {
+    return post(uri, null);
   }
 
   /**
    * get resource body from OAuth2 resource response using HTTP POST method with
    * UTF-8 encoded parameters
    * 
-   * @param URI
+   * @param uri
    *          resource URI
    * @param parameters
    *          resource parameters
    * @return resource body
+   * @throws OAuthSystemException
+   *           If an OAuth system exception occurs
+   * @throws OAuthProblemException
+   *           If an OAuth problem exception occurs
    */
-  public String post(String URI, Map<String, String> parameters)
-      throws URISyntaxException, OAuthSystemException, OAuthProblemException {
+  public String post(String uri, Map<String, String> parameters)
+      throws OAuthSystemException, OAuthProblemException {
     CloseableHttpClient client = HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy())
         .build();
     try {
-      return post(client, URI, parameters);
+      return post(client, uri, parameters);
     } finally {
       try {
         client.close();
@@ -185,17 +202,21 @@ public class OAuthResRequester {
    * 
    * @param client
    *          HttpClient object
-   * @param URI
+   * @param uri
    *          resource URI
    * @param parameters
    *          resource parameters
    * @return resource body
+   * @throws OAuthSystemException
+   *           If an OAuth system exception occurs
+   * @throws OAuthProblemException
+   *           If an OAuth problem exception occurs
    */
-  public String post(CloseableHttpClient client, String URI, Map<String, String> parameters)
-      throws URISyntaxException, OAuthSystemException, OAuthProblemException {
+  public String post(CloseableHttpClient client, String uri, Map<String, String> parameters)
+      throws OAuthSystemException, OAuthProblemException {
     CloseableHttpClient4 proxy = new CloseableHttpClient4(client);
     OAuthClient oAuthClient = new OAuthClient(proxy);
-    OAuthClientRequest request = new OAuthBearerClientRequest(URI).setAccessToken(accessToken)
+    OAuthClientRequest request = new OAuthBearerClientRequest(uri).setAccessToken(accessToken)
         .buildHeaderMessage();
     if (parameters != null)
       attachParameters(request, parameters);

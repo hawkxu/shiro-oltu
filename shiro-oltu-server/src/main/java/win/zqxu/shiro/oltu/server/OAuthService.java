@@ -43,29 +43,28 @@ public interface OAuthService {
   boolean checkClient(String clientId, String secret);
 
   /**
-   * Check scope
-   * 
-   * @param scope
-   *          one of scopes per time
-   * @return true if scope is valid
-   */
-  boolean checkScope(String scope);
-
-  /**
-   * When client request an authentication code, determine whether need user
-   * confirm or not, the LIBRARY will redirect to the {@link #userConfirmURI()}
-   * if this method returns true.
+   * whether the client must provide scope or not. if this method returns true,
+   * the client must provide at least one scope for request authorization code.
    * 
    * @param clientId
    *          client id
-   * @param scopes
-   *          scopes
-   * @return true for ask user confirm
+   * @return true if the client must provide scope
    */
-  boolean askUserConfirm(String clientId, Set<String> scopes);
+  boolean scopeRequired(String clientId);
 
   /**
-   * User confirm URI if {@link #askUserConfirm(String, Set)} returns true, the
+   * Check scope, one of the scopes per time
+   * 
+   * @param clientId
+   *          client id
+   * @param scope
+   *          scope
+   * @return true if scope is valid
+   */
+  boolean checkScope(String clientId, String scope);
+
+  /**
+   * user confirm URI for authorization code requisition, if not null, the
    * LIBRARY will redirect to this URI with <b>confirm_key</b> and
    * <b>client_id</b> and <b>scope</b> and a <b>redirect_uri</b> to redirect
    * back, after user confirmed or cancelled, the confirm page must redirect
@@ -76,9 +75,13 @@ public interface OAuthService {
    * and {@link OAuth#OAUTH_SCOPE} and {@link OAuth#OAUTH_REDIRECT_URI} instead
    * of hard-code parameter name
    * 
-   * @return User confirm URI
+   * @param clientId
+   *          client id
+   * @param scopes
+   *          scopes
+   * @return user confirm URI, or null if no confirmation needed
    */
-  String userConfirmURI();
+  String userConfirmURI(String clientId, Set<String> scopes);
 
   /**
    * Client requested an authorization code
@@ -114,17 +117,20 @@ public interface OAuthService {
   void addAcessToken(String accessToken, String authCode);
 
   /**
-   * Access token expire time in millisecond, the client should request new
+   * access token expire time in millisecond, the client should request new
    * access token after the access token expires.
    * 
-   * @return Access token expire time in millisecond
+   * @param accessToken
+   *          access token
+   * 
+   * @return access token expire time in millisecond
    */
-  long getExpireIn();
+  long getExpireIn(String accessToken);
 
   /**
    * Determine whether the implementation class supported refresh token
    * 
-   * @return true if the implementation supported refresh token
+   * @return true if the implementation class supported refresh token
    */
   boolean refreshTokenSupported();
 

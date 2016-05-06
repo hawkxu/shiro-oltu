@@ -145,7 +145,9 @@ public class OAuthAuthzRequester {
    *          HTTP client
    * @return {@link OAuthClientToken} object
    * @throws OAuthSystemException
+   *           If an OAuth system exception occurs
    * @throws OAuthProblemException
+   *           If an OAuth problem exception occurs
    */
   public OAuthClientToken authorize(CloseableHttpClient client)
       throws OAuthSystemException, OAuthProblemException {

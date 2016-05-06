@@ -27,7 +27,7 @@ public class OAuthClientToken implements AuthenticationToken {
    *          authorization code
    * @param scopes
    *          OAuth scopes
-   * @return
+   * @return OAuth client token
    */
   public static OAuthClientToken authCode(String authCode, Set<String> scopes) {
     OAuthClientToken token = new OAuthClientToken();
@@ -44,7 +44,7 @@ public class OAuthClientToken implements AuthenticationToken {
    *          refresh token
    * @param scopes
    *          OAuth scopes
-   * @return
+   * @return OAuth client token
    */
   public static OAuthClientToken refreshToken(String refreshToken, Set<String> scopes) {
     OAuthClientToken token = new OAuthClientToken();

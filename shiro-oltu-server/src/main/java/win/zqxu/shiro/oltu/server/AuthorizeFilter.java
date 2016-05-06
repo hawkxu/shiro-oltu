@@ -47,14 +47,28 @@ public class AuthorizeFilter extends AdviceFilter {
       + "_SAVED_OAUTH_REQUEST";
   private OAuthService oAuthService;
 
+  /**
+   * get OAuth2 Service Object
+   * 
+   * @return OAuth2 Service Object
+   */
   public OAuthService getoAuthService() {
     return oAuthService;
   }
 
+  /**
+   * set OAuth2 Service Object
+   * 
+   * @param oAuthService
+   *          OAuth2 Service Object
+   */
   public void setoAuthService(OAuthService oAuthService) {
     this.oAuthService = oAuthService;
   }
 
+  /**
+   * check client and redirect back with OAuth authorization code
+   */
   @Override
   protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
     I18N i18n = new I18N(request.getLocale());
@@ -84,10 +98,13 @@ public class AuthorizeFilter extends AdviceFilter {
    *          HTTP request
    * @param response
    *          HTTP response
-   * @return always returns false
+   * @return always return false
    * @throws IOException
+   *           If an input or output exception occurs
    * @throws OAuthSystemException
+   *           If an OAuth system exception occurs
    * @throws OAuthProblemException
+   *           If an OAuth problem exception occurs
    */
   protected boolean processOAuthRequest(HttpServletRequest request, HttpServletResponse response)
       throws IOException, OAuthProblemException, OAuthSystemException {
@@ -106,16 +123,18 @@ public class AuthorizeFilter extends AdviceFilter {
           ResponseUtils.responseInvalidRequest(i18n.getString("UNSUPPORT_RESP_TYPE")));
     // check scopes
     Set<String> scopes = oAuthRequest.getScopes();
+    if (scopes.isEmpty() && oAuthService.scopeRequired(clientId))
+      return ResponseUtils.processResponse(response, redirectURI,
+          ResponseUtils.responseInvalidScope(i18n.getString("SCOPE_REQUIRED")));
     for (String scope : scopes) {
-      if (!oAuthService.checkScope(scope))
+      if (!oAuthService.checkScope(clientId, scope))
         return ResponseUtils.processResponse(response, redirectURI,
-            ResponseUtils.responseInvalidScope(i18n.getString("INVALID_SCOPE") + scope));
+            ResponseUtils.responseInvalidScope(i18n.getString("INVALID_SCOPE") + " " + scope));
     }
     // determine whether need user confirm or not
-    if (oAuthService.askUserConfirm(clientId, scopes)) {
-      if (!OAuthUtils.isEmpty(oAuthService.userConfirmURI()))
-        return redirectToUserConfirm(request, response, oAuthRequest);
-    }
+    String confirmURI = oAuthService.userConfirmURI(clientId, scopes);
+    if (!OAuthUtils.isEmpty(confirmURI))
+      return redirectToUserConfirm(request, response, oAuthRequest, confirmURI);
     // generate authorization code and redirect back
     return generateAuthorizationCode(request, response, new SavedOAuthRequest(oAuthRequest));
   }
@@ -123,13 +142,20 @@ public class AuthorizeFilter extends AdviceFilter {
   /**
    * redirect to user confirm page
    * 
+   * @param request
+   *          HTTP request
+   * @param response
+   *          HTTP response
    * @param oAuthRequest
    *          OAuth request
-   * @return always returns false
+   * @param confirmURI
+   *          confirm URI
+   * @return always return false
    * @throws IOException
+   *           If an input or output exception occurs
    */
   protected boolean redirectToUserConfirm(HttpServletRequest request, HttpServletResponse response,
-      OAuthAuthzRequest oAuthRequest) throws IOException {
+      OAuthAuthzRequest oAuthRequest, String confirmURI) throws IOException {
     saveOAuthRequest(oAuthRequest);
     SavedOAuthRequest savedRequest = readSavedRequest();
     Map<String, String> parameters = new HashMap<String, String>();
@@ -137,7 +163,7 @@ public class AuthorizeFilter extends AdviceFilter {
     parameters.put(OAuth.OAUTH_CLIENT_ID, oAuthRequest.getClientId());
     parameters.put(OAuth.OAUTH_SCOPE, oAuthRequest.getParam(OAuth.OAUTH_SCOPE));
     parameters.put(OAuth.OAUTH_REDIRECT_URI, request.getRequestURI());
-    WebUtils.issueRedirect(request, response, oAuthService.userConfirmURI(), parameters);
+    WebUtils.issueRedirect(request, response, confirmURI, parameters);
     return false;
   }
 
@@ -148,10 +174,13 @@ public class AuthorizeFilter extends AdviceFilter {
    *          HTTP request
    * @param response
    *          HTTP response
-   * @return always returns false
+   * @return always return false
    * @throws IOException
+   *           If an input or output exception occurs
    * @throws OAuthSystemException
+   *           If an OAuth system exception occurs
    * @throws OAuthProblemException
+   *           If an OAuth problem exception occurs
    */
   protected boolean processSavedRequest(HttpServletRequest request, HttpServletResponse response)
       throws IOException, OAuthProblemException, OAuthSystemException {
@@ -189,9 +218,11 @@ public class AuthorizeFilter extends AdviceFilter {
    *          HTTP response
    * @param savedRequest
    *          saved request
-   * @return always returns false
-   * @throws OAuthSystemException
+   * @return always return false
    * @throws IOException
+   *           If an input or output exception occurs
+   * @throws OAuthSystemException
+   *           If an OAuth system exception occurs
    */
   protected boolean generateAuthorizationCode(HttpServletRequest request,
       HttpServletResponse response, SavedOAuthRequest savedRequest)
