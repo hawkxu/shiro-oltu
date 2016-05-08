@@ -30,32 +30,47 @@ import win.zqxu.shiro.oltu.client.OAuthClientToken;
  * </p>
  * 
  * <p>
- * INI settings example:<br>
+ * INI settings example, <b>change properties to real value</b>:<br>
  * <br>
  * [main]<br>
+ * # use extended Class to provide more user attributes<br>
  * oAuthRealm = win.zqxu.shiro.oltu.client.OAuthAuthorizeRealm<br>
+ * # change below properties to real value<br>
  * oAuthRealm.tokenURI = https://server/path_to/token<br>
  * oAuthRealm.clientId = xxxx<br>
  * oAuthRealm.clientSecret = xxxx<br>
- * oAuthRealm.defaultRoles = should be ignored<br>
- * oAuthRealm.defaultPermissions = should be ignored<br>
+ * # unmark below two properties to set user default roles and permissions<br>
+ * # please read Shiro documentation<br>
+ * #oAuthRealm.defaultRoles = default roles<br>
+ * #oAuthRealm.defaultPermissions = default permissions<br>
  * <br>
+ * # filter to get authorization code and call realm to login<br>
  * oAuthFilter = win.zqxu.shiro.oltu.web.OAuthAuthenticationFilter<br>
- * oAuthFilter.state = should be ignored, must equal to state in loginUrl<br>
- * oAuthFilter.failureURI = /error.jsp<br>
+ * # verify client request state, must equal to state in loginUrl<br>
+ * #oAuthFilter.state = client state<br>
+ * # redirect to error page if login failure<br>
+ * #oAuthFilter.failureURI = /error.jsp<br>
  * <br>
+ * # make login url builder<br>
  * loginUrlBuilder = win.zqxu.shiro.oltu.web.OAuthLoginUrlBuilder<br>
  * loginUrlBuilder.authorizeURI = https://server/path_to/authorize<br>
  * loginUrlBuilder.clientId = xxxx<br>
- * loginUrlBuilder.scopes = scope1,scope2,...<br>
- * loginUrlBuilder.state = should be ignored, must equal to oAuthFilter.state
- * <br>
+ * # client request scopes<br>
+ * #loginUrlBuilder.scopes = scope1,scope2,...<br>
+ * # client request state, muse equal to oAuthFilter.state upstair<br>
+ * #loginUrlBuilder.state = client state<br>
+ * # callback uri to oAuthFilter<br>
  * loginUrlBuilder.callbackURI = http://this_site/shiro-oauth<br>
+ * # use login url builder to generate login url, or you can<br>
+ * # input whole login url here instead of use login url builder<br>
  * shiro.loginUrl = $loginUrlBuilder<br>
  * <br>
  * [urls]<br>
+ * # callback uri for oAuthFilter<br>
  * /shiro-oauth = oAuthFilter<br>
- * /account/** = user<br>
+ * # protect some pages and ask user login first<br>
+ * /account/** = authc<br>
+ * # other pages would be accessed by anonymous<br>
  * /** = anon<br>
  * </p>
  * 
