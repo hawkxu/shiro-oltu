@@ -131,16 +131,16 @@ public class AuthorizeFilter extends AdviceFilter {
         return ResponseUtils.processResponse(response, redirectURI,
             ResponseUtils.responseInvalidScope(i18n.getString("INVALID_SCOPE") + " " + scope));
     }
-    // determine whether need user confirm or not
-    String confirmURI = oAuthService.userConfirmURI(clientId, scopes);
-    if (!OAuthUtils.isEmpty(confirmURI))
-      return redirectToUserConfirm(request, response, oAuthRequest, confirmURI);
+    // determine whether need confirmation or not
+    String confirmationURI = oAuthService.confirmationURI(clientId, scopes);
+    if (!OAuthUtils.isEmpty(confirmationURI))
+      return redirectToConfirmation(request, response, oAuthRequest, confirmationURI);
     // generate authorization code and redirect back
     return generateAuthorizationCode(request, response, new SavedOAuthRequest(oAuthRequest));
   }
 
   /**
-   * redirect to user confirm page
+   * redirect to confirmation page
    * 
    * @param request
    *          HTTP request
@@ -154,7 +154,7 @@ public class AuthorizeFilter extends AdviceFilter {
    * @throws IOException
    *           If an input or output exception occurs
    */
-  protected boolean redirectToUserConfirm(HttpServletRequest request, HttpServletResponse response,
+  protected boolean redirectToConfirmation(HttpServletRequest request, HttpServletResponse response,
       OAuthAuthzRequest oAuthRequest, String confirmURI) throws IOException {
     saveOAuthRequest(oAuthRequest);
     SavedOAuthRequest savedRequest = readSavedRequest();
@@ -197,11 +197,11 @@ public class AuthorizeFilter extends AdviceFilter {
       return ResponseUtils.processResponse(response, null,
           ResponseUtils.responseInvalidRequest(i18n.getString("REQUEST_EXPIRED")));
     }
-    // Check user confirmed result
+    // Check confirmation result
     String confirmResult = request.getParameter(OAuthService.CONFIRM_RESULT);
     if (!Boolean.valueOf(confirmResult))
       return ResponseUtils.processResponse(response, savedRequest.redirectURI,
-          ResponseUtils.responseAccessDenied(i18n.getString("USER_REJECT_REQUEST")));
+          ResponseUtils.responseAccessDenied(i18n.getString("CONFIRMATION_REJECTED")));
     // Update authorization scopes
     String scope = request.getParameter(OAuth.OAUTH_SCOPE);
     savedRequest.scopes = OAuthUtils.decodeScopes(scope);

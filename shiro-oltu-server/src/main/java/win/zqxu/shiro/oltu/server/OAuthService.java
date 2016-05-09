@@ -64,13 +64,13 @@ public interface OAuthService {
   boolean checkScope(String clientId, String scope);
 
   /**
-   * user confirm URI for authorization code requisition, if not null, the
+   * confirmation URI for authorization code requisition, if not null, the
    * LIBRARY will redirect to this URI with <b>confirm_key</b> and
    * <b>client_id</b> and <b>scope</b> and a <b>redirect_uri</b> to redirect
-   * back, after user confirmed or cancelled, the confirm page must redirect
+   * back, after confirmed or cancelled, the confirmation page must redirect
    * back with <b>confirm_key</b> and <b>confirm_result</b> (true or false) and
-   * <b>scope</b><br>
-   * the User confirm page should use constants {@link OAuthService#CONFIRM_KEY}
+   * <b>scope</b> parameters<br>
+   * the confirmation page should use constants {@link OAuthService#CONFIRM_KEY}
    * and {@link OAuthService#CONFIRM_RESULT} and {@link OAuth#OAUTH_CLIENT_ID}
    * and {@link OAuth#OAUTH_SCOPE} and {@link OAuth#OAUTH_REDIRECT_URI} instead
    * of hard-code parameter name
@@ -79,9 +79,9 @@ public interface OAuthService {
    *          client id
    * @param scopes
    *          scopes
-   * @return user confirm URI, or null if no confirmation needed
+   * @return confirmation URI, or null if no confirmation needed
    */
-  String userConfirmURI(String clientId, Set<String> scopes);
+  String confirmationURI(String clientId, Set<String> scopes);
 
   /**
    * Client requested an authorization code
